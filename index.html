@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎉</title>
+    <style>
+        /* --- Root Theme Configuration (Aesthetic Blue & Pink) --- */
+        :root {
+            --accent-color: #d81159;
+            --accent-hover: #ff758f;
+            --accent-bg: #e8f0fe;
+            --accent-border: #b3d1ff;
+            --blue-accent: #4ea8de;
+        }
+
+        /* --- General Setup --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #ffdee9, #b5e2fa, #ffccd5, #90e0ef);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 50% 100%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 0%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .page { 
+            display: none; 
+            min-height: 100vh; 
+            width: 100vw; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative; 
+            text-align: center;
+            padding: 40px 20px 100px 20px;
+        }
+        .active { 
+            display: flex; 
+        }
+        .hidden { 
+            display: none !important; 
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Georgia', serif;
+            color: var(--accent-color);
+        }
+
+        /* --- Page 1: Keypad Lock Screen --- */
+        .lock-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 320px;
+            width: 100%;
+        }
+        .lock-container h2 {
+            font-size: 22px;
+            color: #4a4a4a;
+            margin-bottom: 5px;
+            font-weight: 400;
+        }
+        .lock-container .hint {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* Container to align live text and cycling star icons side by side */
+        .password-row-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+
+        /* Live Visible Password Display Screen styling */
+        .password-display-text {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.6);
+            padding: 8px 20px;
+            border-radius: 12px;
+            min-width: 160px;
+            border: 1px solid var(--accent-border);
+        }
+
+        /* Excited Shifting Star Animation Display */
+        .excited-star-cycler {
+            font-size: 32px;
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: bounceShake 0.5s infinite alternate cubic-bezier(0.25, 1, 0.5, 1);
+            user-select: none;
+        }
+
+        @keyframes bounceShake {
+            0% { transform: translateY(0) scale(1) rotate(-5deg); }
+            100% { transform: translateY(-6px) scale(1.2) rotate(10deg); }
+        }
+
+        .dots-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--blue-accent);
+            border-radius: 50%;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .dot.filled {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: scale(1.15);
+        }
+
+        .url-music-box {
+            margin-bottom: 25px;
+            width: 100%;
+            text-align: center;
+        }
+        .url-music-box input {
+            width: 90%;
+            padding: 6px 12px;
+            border-radius: 15px;
+            border: 1px solid var(--accent-border);
+            font-size: 11px;
+            outline: none;
+            text-align: center;
+            background: rgba(255,255,255,0.8);
+            color: #444;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px 25px;
+            justify-items: center;
+            width: 100%;
+        }
+        .key {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            font-size: 26px;
+            color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.15s, transform 0.1s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+        .key:active {
+            background: var(--accent-bg);
+            color: var(--accent-color);
+            transform: scale(0.9);
+        }
+        .key.action-btn {
+            font-size: 14px;
+            font-weight: bold;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            color: #777;
+        }
+
+        .shake { animation: shakeAnim 0.4s ease-in-out; }
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        /* --- GIFT WRAPPING PAPER LAYER COMPONENT --- */
+        .gift-wrapper-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffb5a7;
+            background-image: radial-gradient(var(--blue-accent) 15%, transparent 16%),
+                              radial-gradient(var(--blue-accent) 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.05);
+        }
+        
+        .gift-wrapper-overlay::before {
+            content: ""; position: absolute; background: #ff758f; width: 40px; height: 100%; top: 0; left: calc(50% - 20px); z-index: 11;
+        }
+        .gift-wrapper-overlay::after {
+            content: ""; position: absolute; background: #ff758f; width: 100%; height: 40px; top: calc(50% - 20px); left: 0; z-index: 11;
+        }
+
+        .ribbon-bow {
+            position: relative; z-index: 12; width: 90px; height: 90px;
+            background: var(--accent-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); animation: bowPulse 2s infinite alternate;
+        }
+        @keyframes bowPulse { 0% { transform: scale(1); } 100% { transform: scale(1.08); } }
+        
+        .ribbon-bow span {
+            color: #fff; font-weight: bold; font-size: 13px; font-family: sans-serif; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .unwrap-ripped {
+            transform: translateY(-100%) scaleY(0.5);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- Page 2: Floating Balloons --- */
+        .balloon-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; z-index: 1; pointer-events: none;
+        }
+        .balloon {
+            position: absolute; bottom: -100px; width: 50px; height: 65px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            animation: fly 7s linear infinite;
+        }
+        .balloon::after {
+            content: ""; position: absolute; bottom: -12px; left: 24px;
+            width: 2px; height: 12px; background: rgba(0,0,0,0.05);
+        }
+        @keyframes fly {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) rotate(10deg); opacity: 0; }
+        }
+
+        /* --- Dynamic Cake Cutting System --- */
+        .cake-container {
+            margin: 20px auto;
+            position: relative;
+            width: 180px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .cake-tier {
+            width: 160px;
+            height: 60px;
+            background: #ffb5a7;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+            border: 3px solid #fff;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        }
+        .cake-tier::before {
+            content: ""; position: absolute; top: 12px; left: 0; width: 100%; height: 10px;
+            background: var(--accent-color);
+        }
+        .cake-slice-line {
+            position: absolute; top: 0; left: 50%; width: 4px; height: 100%;
+            background: #fff; transform: scaleY(0); transition: transform 0.5s ease-in-out;
+        }
+        .cake-slice-line.cut {
+            transform: scaleY(1);
+        }
+        .candle-stick {
+            width: 8px; height: 35px; background: var(--blue-accent);
+            position: absolute; top: -35px; left: calc(50% - 4px);
+            border-radius: 4px 4px 0 0;
+        }
+        .candle-flame {
+            width: 12px; height: 18px; background: #ffb703;
+            position: absolute; top: -16px; left: calc(50% - 6px);
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 0.6s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-2deg); }
+            100% { transform: scale(1.15) rotate(3deg); opacity: 0.9; }
+        }
+        .virtual-knife {
+            font-size: 30px; position: absolute; top: -70px; left: 30%;
+            opacity: 0; transition: all 0.6s ease; pointer-events: none;
+        }
+        .knife-slice-anim {
+            opacity: 1; left: 45%; top: -25px; transform: rotate(-45deg);
+        }
+        
+        .action-celebrate-btn {
+            background: var(--accent-color); color: white; border: none;
+            padding: 10px 22px; font-weight: bold; font-size: 14px;
+            border-radius: 20px; cursor: pointer; margin-top: 15px;
+            transition: background 0.2s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(216, 17, 89, 0.2);
+        }
+        .action-celebrate-btn:hover { background: var(--accent-hover); transform: scale(1.05); }
+
+        /* Animated Slide-Up Wish Box */
+        .animated-wish-banner {
+            background: linear-gradient(135deg, #ffffff, #fff0f3);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px; border-radius: 16px; margin: 20px auto;
+            max-width: 400px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transform: translateY(30px); opacity: 0;
+            transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .animated-wish-banner.show {
+            transform: translateY(0); opacity: 1;
+        }
+        .animated-wish-banner h4 { font-size: 20px; margin-bottom: 8px; font-style: italic; }
+        .animated-wish-banner p { font-size: 15px; color: #4a4a4a; line-height: 1.5; }
+
+        /* --- Page 2: Interactive Gift Box --- */
+        .interactive-zone { z-index: 2; width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .gift-box { 
+            width: 120px; height: 120px; background: var(--accent-color); 
+            cursor: pointer; position: relative; border-radius: 0 0 12px 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: transform 0.3s;
+        }
+        .gift-box:hover { transform: scale(1.1) rotate(3deg); }
+        .gift-box::before {
+            content: ""; position: absolute; left: 51px; top: 0; width: 18px; height: 120px; background: var(--blue-accent);
+        }
+        .gift-box .lid { 
+            height: 28px; width: 132px; background: #ff758f; 
+            position: absolute; top: -23px; left: -6px; border-radius: 6px;
+            box-shadow: 0 4px 5px rgba(0,0,0,0.05);
+        }
+        .gift-box .lid::before {
+            content: ""; position: absolute; left: 57px; top: 0; width: 18px; height: 28px; background: var(--blue-accent);
+        }
+
+        .candles-step { font-size: 45px; cursor: pointer; letter-spacing: 12px; display: inline-block; margin-top: 15px; }
+        .candles-step:hover { transform: scale(1.25); }
+
+        /* --- Page 3: Dynamic Polaroid --- */
+        #page3 { justify-content: flex-start; overflow-y: auto; z-index: 2; }
+        #page3 h2 { margin-bottom: 10px; font-size: 36px; }
+        .subtitle { font-style: italic; color: #666; margin-bottom: 30px; }
+        
+        .polaroid-gallery { 
+            display: flex; gap: 30px; margin-bottom: 40px; 
+            flex-wrap: wrap; justify-content: center; 
+        }
+        
+        .polaroid { 
+            background: white; padding: 15px 15px 35px 15px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-radius: 4px;
+            opacity: 0;
+            transform: translateY(40px) rotate(-5deg);
+            animation: polaroidFadeIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.2) forwards;
+        }
+        .polaroid:nth-child(1) { animation-delay: 0.2s; --rot: -4deg; }
+        .polaroid:nth-child(2) { animation-delay: 0.6s; --rot: 4deg; }
+        
+        @keyframes polaroidFadeIn {
+            to { opacity: 1; transform: translateY(0) rotate(var(--rot, -3deg)); }
+        }
+
+        .polaroid:hover { transform: rotate(0deg) scale(1.05) !important; z-index: 5; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .polaroid img { width: 200px; height: 200px; object-fit: cover; border: 1px solid #eee; }
+        .polaroid p { margin-top: 15px; font-family: 'Courier New', Courier, monospace; font-weight: bold; color: #555; }
+        
+        /* Table Container */
+        .table-container {
+            width: 100%; max-width: 550px; background: rgba(255, 255, 255, 0.95);
+            padding: 20px; border-radius: 16px; margin-bottom: 40px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+            animation: tablePulse 3s infinite alternate;
+        }
+        @keyframes tablePulse {
+            0% { box-shadow: 0 8px 24px rgba(0,0,0,0.03); }
+            100% { box-shadow: 0 8px 30px rgba(78, 168, 222, 0.2); }
+        }
+        .table-container h3 { font-size: 22px; margin-bottom: 15px; color: var(--accent-color); }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid var(--accent-bg); color: #444; }
+        th { background-color: var(--accent-bg); color: var(--accent-color); font-weight: 600; }
+        
+        .status-badge {
+            background: #e2f0d9; color: #385723; padding: 3px 8px;
+            border-radius: 12px; font-size: 12px; font-weight: bold;
+        }
+
+        .summary { 
+            max-width: 650px; background: rgba(255, 255, 255, 0.9);
+            padding: 30px; border-radius: 20px; font-size: 18px; 
+            color: #4a4a4a; line-height: 1.7; margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        /* Particles */
+        .heart-shower-zone {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            pointer-events: none; overflow:hidden; z-index: 1;
+        }
+        .mini-heart {
+            position: absolute; top: -20px; font-size: 20px;
+            animation: fallHearts 5s linear infinite; opacity: 0.7;
+        }
+        @keyframes fallHearts {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.7; }
+            50% { transform: translateY(50vh) translateX(30px) rotate(180deg); }
+            100% { transform: translateY(105vh) translateX(-20px) rotate(360deg); opacity: 0; }
+        }
+
+        /* --- Page 4: Website Generator Screen --- */
+        #page4 { justify-content: flex-start; overflow-y: auto; gap: 25px; }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px; border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 500px; width: 100%; text-align: left;
+        }
+        .form-container h2 { text-align: center; margin-bottom: 20px; font-size: 26px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 10px 15px; border-radius: 12px; border: 1px solid var(--accent-border);
+            outline: none; font-size: 14px; font-family: inherit; background: white; color: #444;
+        }
+        .form-container button {
+            width: 100%; background: var(--accent-color); color: white; border: none; padding: 12px;
+            border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.2s;
+            margin-top: 10px;
+        }
+        .form-container button:hover { background: var(--accent-hover); }
+        
+        .generated-link-box {
+            margin-top: 20px; padding: 12px; background: var(--accent-bg); border-radius: 8px;
+            border: 1px dashed var(--accent-color); word-break: break-all; font-size: 13px; font-family: monospace; color: #444;
+        }
+
+        /* Interactive Live Reviews */
+        .publisher-reviews-box {
+            width: 100%; max-width: 500px; background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: left;
+        }
+        .publisher-reviews-box h3 { font-size: 20px; margin-bottom: 8px; text-align: center; }
+        .publisher-reviews-box .thanks-note { font-size: 14px; color: #555; text-align: center; line-height: 1.5; margin-bottom: 20px; }
+        
+        .review-input-row { display: flex; gap: 10px; margin-bottom: 10px; }
+        .review-submit-btn {
+            background: var(--accent-color); color: white; border: none; padding: 8px 15px;
+            border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 13px;
+        }
+        .review-submit-btn:hover { background: var(--accent-hover); }
+        .stars { color: #facc15; font-weight: bold; letter-spacing: 2px; }
+        .review-row td { padding: 10px; font-size: 13px; }
+
+        footer {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05); padding: 15px; text-align: center; z-index: 100;
+        }
+        footer a { color: var(--accent-color); text-decoration: none; font-weight: bold; font-size: 14px; cursor: pointer; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <audio id="bdayMusic" loop></audio>
+
+    <!-- PAGE 1: KEYPAD LOCK SCREEN -->
+    <section id="page1" class="page active">
+        <div class="lock-container" id="lockContainer">
+            <h2>Enter Passcode</h2>
+            <p class="hint">Hint: Birthday Date (DDMM)</p>
+            
+            <!-- Row wrapping the password screen display and the fast shifting pop-culture text components -->
+            <div class="password-row-wrapper">
+                <div class="excited-star-cycler" id="leftStarCycler">⚡</div>
+                <div class="password-display-text" id="livePassText">_ _ _ _</div>
+                <div class="excited-star-cycler" id="rightStarCycler">🔥</div>
+            </div>
+            
+            <div class="dots-container">
+                <div class="dot" id="dot0"></div>
+                <div class="dot" id="dot1"></div>
+                <div class="dot" id="dot2"></div>
+                <div class="dot" id="dot3"></div>
+            </div>
+
+            <div class="url-music-box">
+                <input type="text" id="customAudioUrl" placeholder="🎵 Loaded Song Path Link Displayed Here" readonly>
+            </div>
+
+            <div class="keypad-grid">
+                <div class="key" onclick="pressKey('1')">1</div>
+                <div class="key" onclick="pressKey('2')">2</div>
+                <div class="key" onclick="pressKey('3')">3</div>
+                <div class="key" onclick="pressKey('4')">4</div>
+                <div class="key" onclick="pressKey('5')">5</div>
+                <div class="key" onclick="pressKey('6')">6</div>
+                <div class="key" onclick="pressKey('7')">7</div>
+                <div class="key" onclick="pressKey('8')">8</div>
+                <div class="key" onclick="pressKey('9')">9</div>
+                <div class="key action-btn"></div>
+                <div class="key" onclick="pressKey('0')">0</div>
+                <div class="key action-btn" style="color: var(--accent-color);" onclick="clearKeypad()">Clear</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 2: BALLOONS, GIFT & CAKE CUTTING ENGINE -->
+    <section id="page2" class="page">
+        
+        <div class="gift-wrapper-overlay" id="paperWrapper" onclick="ripGiftPaper()">
+            <div class="ribbon-bow">
+                <span>Kick Me ✨</span>
+            </div>
+        </div>
+
+        <div class="balloon-container" id="balloonZone"></div>
+        
+        <div class="interactive-zone">
+            <div class="gift-box" id="giftBox" onclick="openGift()">
+                <div class="lid"></div>
+            </div>
+
+            <!-- Virtual Animated Cake cutting module -->
+            <div id="cakeModule" class="hidden" style="width:100%;">
+                <h3 style="margin-bottom:10px;">Time For The Cake Cutting! 🎂</h3>
+                <div class="cake-container">
+                    <div class="virtual-knife" id="knifeEmoji">🔪</div>
+                    <div class="candle-stick">
+                        <div class="candle-flame" id="flameLayer"></div>
+                    </div>
+                    <div class="cake-tier">
+                        <div class="cake-slice-line" id="sliceLine"></div>
+                    </div>
+                </div>
+                <button class="action-celebrate-btn" id="cutBtn" onclick="executeCakeCut()">Cut the Cake 🎂</button>
+                
+                <!-- Slide up interactive personalized wish banner -->
+                <div class="animated-wish-banner" id="wishBanner">
+                    <h4 id="wishHeaderTitle">Happy Birthday! ✨</h4>
+                    <p id="wishMessageText">May your day be painted with beautiful moments, pure laughter, and all the things you love most.</p>
+                    <div class="candles-step" onclick="goToGallery()" title="Tap candles to view gallery">🕯️🕯️🕯️</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PAGE 3: POLAROIDS & MEMORIES GALLERY -->
+    <section id="page3" class="page">
+        <div class="heart-shower-zone" id="heartZone"></div>
+
+        <h2 id="galleryNameHeader">Collected Best Memories 📸</h2>
+        <p class="subtitle">Looking back at the sweetest, loveliest days... Having Lot of FUN and Memorable day</p>
+        
+        <div class="polaroid-gallery">
+            <div class="polaroid">
+                <img id="imgView1" src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&auto=format&fit=crop" alt="Memory 1 Cake">
+                <p id="capView1">The Big Cake Cutting 🎂</p>
+            </div>
+            <div class="polaroid">
+                <img id="imgView2" src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400&auto=format&fit=crop" alt="Memory 2 Celebration">
+                <p id="capView2">Celebration & Joy 🎉</p>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h3>🎁 Today's Surprise Checklist</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Surprise / Gift</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Midnight Cake Cutting</td>
+                        <td>Experience</td>
+                        <td><span class="status-badge">Unlocked ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Handwritten Digital Letter</td>
+                        <td>Keepsake</td>
+                        <td><span class="status-badge">Unlocked ✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>The Main Mystery Gift Box</td>
+                        <td>Gitf in Partyy</td>
+                        <td><span class="status-badge" style="background:#ffe5ec; color:#b7094c;">Pending ⏳</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="summary">
+            <p id="finalSummaryText">Wishing you a spectacular year ahead filled with new milestones, peaceful moments, and absolute happiness.</p>
+        </div>
+    </section>
+
+    <!-- PAGE 4: CREATOR ENGINE MODULE -->
+    <section id="page4" class="page">
+        <div class="form-container">
+            <h2>Create a Birthday Website 🌸</h2>
+            <div class="form-group">
+                <label>Friend's Name</label>
+                <input type="text" id="makerName" placeholder="e.g. Anjali">
+            </div>
+            <div class="form-group">
+                <label>Secret Passcode Lock (4 Numbers)</label>
+                <input type="text" id="makerPass" placeholder="e.g. 1310" maxlength="4">
+            </div>
+            <div class="form-group">
+                <label>Custom Birthday Wish Message</label>
+                <textarea id="makerWish" rows="2" placeholder="Write your lovely words here..."></textarea>
+            </div>
+            
+            <div class="form-group hidden">
+                <select id="makerColorSelect"><option value="bluepink" selected></option></select>
+            </div>
+
+            <div class="form-group">
+                <label>Select Background Music Track</label>
+                <select id="makerSongSelect" onchange="toggleCustomSongInput()">
+                    <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Instrumental Melodic Piano (Default)</option>
+                    <option value="https://pub-9262f689fbfd4daba4fa0878a846f4bc.r2.dev/Tere%20Bina%20-%20A.R.%20Rahman.mp3">Tere Bina - Hindi (A.R. Rahman Hits)</option>
+                    <option value="https://pub-9262f689fbfd4daba4fa0878a846f4bc.r2.dev/Vachindamma%20-%20Geetha%20Govindam.mp3">Vachindamma - Telugu (Geetha Govindam)</option>
+                    <option value="custom">-- Paste Custom MP3 URL Link --</option>
+                </select>
+            </div>
+            <div class="form-group hidden" id="customSongInputGroup">
+                <label>Custom MP3 Audio URL Track</label>
+                <input type="text" id="makerCustomSongUrl" placeholder="https://example.com/your-song.mp3">
+            </div>
+
+            <div style="border-top: 1px dashed #ccc; margin-top: 15px; padding-top: 10px;">
+                <h4 style="color: var(--accent-color); font-size:14px; margin-bottom:10px;">📸 Customize Polaroid Memories (Optional)</h4>
+                <div class="form-group">
+                    <label>Photo 1 Image URL (Cake Cutting)</label>
+                    <input type="text" id="makerImg1" placeholder="Leave empty for default cake cutting pic">
+                </div>
+                <div class="form-group">
+                    <label>Photo 1 Caption Title</label>
+                    <input type="text" id="makerCap1" placeholder="e.g. The Big Cake Cutting 🎂">
+                </div>
+                <div class="form-group">
+                    <label>Photo 2 Image URL (Celebration)</label>
+                    <input type="text" id="makerImg2" placeholder="Leave empty for default celebration pic">
+                </div>
+                <div class="form-group">
+                    <label>Photo 2 Caption Title</label>
+                    <input type="text" id="makerCap2" placeholder="e.g. Celebration & Joy 🎉">
+                </div>
+            </div>
+
+            <button onclick="generateBirthdayLink()">Generate Website URL ✨</button>
+
+            <div id="linkResultBox" class="generated-link-box hidden">
+                <strong>Your Shareable Link:</strong><br>
+                <span id="outputLinkLocation"></span>
+            </div>
+        </div>
+
+        <!-- REAL RATING ENGINE SECTION -->
+        <div class="publisher-reviews-box">
+            <h3>Thank You for Visiting! 💝</h3>
+            <p class="thanks-note">Submit your real rating and feedback below to update the logs instantly!</p>
+            
+            <div class="form-group">
+                <div class="review-input-row">
+                    <input type="text" id="reviewerName" placeholder="Your Name" style="flex: 2; padding: 8px;">
+                    <select id="reviewerStars" style="flex: 1; padding: 8px;">
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="1">⭐</option>
+                    </select>
+                </div>
+                <textarea id="reviewerText" rows="2" placeholder="Type your real feedback or review logs here..." style="padding: 8px; margin-bottom: 10px;"></textarea>
+                <button class="review-submit-btn" onclick="submitRealRating()">Submit Review</button>
+            </div>
+
+            <table class="review-table">
+                <thead>
+                    <tr>
+                        <th>Creator User</th>
+                        <th>Rating</th>
+                        <th>Feedback Log</th>
+                    </tr>
+                </thead>
+                <tbody id="liveReviewContainer">
+                    <tr class="review-row">
+                        <td>Rabbit</td>
+                        <td><span class="stars">⭐⭐⭐⭐⭐</span></td>
+                        <td>"The new blue and pink color blend looks soft and premium."</td>
+                    </tr>
+                    <tr class="review-row">
+                        <td>Avani</td>
+                        <td><span class="stars">⭐⭐⭐⭐⭐</span></td>
+                        <td>"The cake cutting action with knife animation works smoothly!"</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        <a onclick="nextPage(4)">Create your own birthday website for free ✨ Kuch kash logo ka liya khushi ko k paal meri traff se </a>
+    </footer>
+
+    <script>
+        let currentInput = "";
+        let targetPasscode = "1310";
+
+        // Array of unique emoji tokens representing Cartoon characters, Cricketers, and Bollywood legends
+        const popCultureStars = [
+            "🥷 (Chhota Bheem)", "🏏 (Virat Kohli)", "🕶️ (Shah Rukh Khan)", 
+            "🐭 (Mickey Mouse)", "👑 (MS Dhoni)", "🤠 (Salman Khan)", 
+            "🐱 (Tom & Jerry)", "🏏 (Rohit Sharma)", "🦁 (Allu Arjun)", 
+            "⚡ (Pikachu)", "🏏 (Sachin)", "🔥 (Hrithik)"
+        ];
+        let starIndex = 0;
+
+        // Function that shifts and flips the emoji characters every 1 second
+        function startStarCyclingEngine() {
+            setInterval(() => {
+                starIndex = (starIndex + 1) % popCultureStars.length;
+                // Grab left and right text indicators
+                const currentStarString = popCultureStars[starIndex];
+                
+                // Extract just the emoji part for quick visualization
+                const currentEmojiOnly = currentStarString.split(" ")[0];
+                
+                document.getElementById('leftStarCycler').innerText = currentEmojiOnly;
+                document.getElementById('rightStarCycler').innerText = currentEmojiOnly;
+                
+                // Provide assistive contextual hint safely onto placeholder elements if desired
+                document.getElementById('leftStarCycler').title = currentStarString;
+                document.getElementById('rightStarCycler').title = currentStarString;
+            }, 1000);
+        }
+
+        function pressKey(num) {
+            if (currentInput.length < 4) {
+                currentInput += num;
+                updateDisplayPipeline();
+                if (currentInput.length === 4) {
+                    setTimeout(verifyPasscode, 250);
+                }
+            }
+        }
+
+        function clearKeypad() {
+            currentInput = "";
+            updateDisplayPipeline();
+        }
+
+        function updateDisplayPipeline() {
+            for (let i = 0; i < 4; i++) {
+                const dot = document.getElementById(`dot${i}`);
+                dot.classList.toggle('filled', i < currentInput.length);
+            }
+
+            const textDisplay = document.getElementById('livePassText');
+            let builtString = "";
+            for (let i = 0; i < 4; i++) {
+                if (i < currentInput.length) {
+                    builtString += currentInput[i] + " ";
+                } else {
+                    builtString += "_ ";
+                }
+            }
+            textDisplay.innerText = builtString.trim();
+        }
+
+        function verifyPasscode() {
+            if (currentInput === targetPasscode) {
+                const music = document.getElementById('bdayMusic');
+                if (music) {
+                    music.play().catch(err => console.log("Audio ready.", err));
+                }
+                nextPage(2);
+            } else {
+                const container = document.getElementById('lockContainer');
+                container.classList.add('shake');
+                setTimeout(() => {
+                    container.classList.remove('shake');
+                    clearKeypad();
+                }, 400);
+            }
+        }
+
+        function ripGiftPaper() {
+            const paper = document.getElementById('paperWrapper');
+            paper.classList.add('unwrap-ripped');
+            setTimeout(() => { startBalloons(); }, 500);
+        }
+
+        function openGift() {
+            document.getElementById('giftBox').classList.add('hidden');
+            document.getElementById('cakeModule').classList.remove('hidden');
+        }
+
+        function executeCakeCut() {
+            const knife = document.getElementById('knifeEmoji');
+            const line = document.getElementById('sliceLine');
+            const flame = document.getElementById('flameLayer');
+            const banner = document.getElementById('wishBanner');
+            const btn = document.getElementById('cutBtn');
+
+            knife.classList.add('knife-slice-anim');
+
+            setTimeout(() => {
+                line.classList.add('cut');
+                flame.classList.add('hidden'); 
+                banner.classList.add('show');  
+                btn.classList.add('hidden');
+                
+                for(let i=0; i<25; i++) {
+                    createConfettiParticle();
+                }
+            }, 600);
+        }
+
+        function createConfettiParticle() {
+            const container = document.getElementById('balloonZone');
+            const p = document.createElement('div');
+            p.innerText = ["✨","🌸","🎈","🎉","💖"][Math.floor(Math.random()*5)];
+            p.style.position = 'absolute';
+            p.style.left = '50vw';
+            p.style.top = '50vh';
+            p.style.fontSize = Math.floor(Math.random()*15 + 15) + 'px';
+            p.style.transition = 'all 1s ease-out';
+            p.style.pointerEvents = 'none';
+            container.appendChild(p);
+
+            setTimeout(() => {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300 - 100;
+                p.style.transform = `translate(${x}px, ${y}px) scale(0)`;
+                p.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => p.remove(), 1050);
+        }
+
+        function nextPage(pageNumber) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(`page${pageNumber}`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function startBalloons() {
+            const container = document.getElementById('balloonZone');
+            setInterval(() => {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.left = Math.floor(Math.random() * 100) + "vw";
+                const randomHue = Math.random() > 0.5 ? Math.floor(Math.random() * 30) + 340 : Math.floor(Math.random() * 40) + 190;
+                balloon.style.backgroundColor = `hsl(${randomHue}, 85%, 75%)`;
+                container.appendChild(balloon);
+                setTimeout(() => balloon.remove(), 7500);
+            }, 450);
+        }
+
+        function goToGallery() {
+            nextPage(3);
+            startThemeParticleShower();
+        }
+
+        function startThemeParticleShower() {
+            const zone = document.getElementById('heartZone');
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'mini-heart';
+                particle.innerText = Math.random() > 0.5 ? "🌸" : "✨";
+                particle.style.left = Math.random() * 100 + "vw";
+                particle.style.animationDuration = (Math.random() * 2 + 3) + "s";
+                particle.style.fontSize = Math.floor(Math.random() * 12 + 16) + "px";
+                zone.appendChild(particle);
+                setTimeout(() => particle.remove(), 5000);
+            }, 300);
+        }
+
+        function submitRealRating() {
+            const name = document.getElementById('reviewerName').value.trim() || "Anonymous";
+            const starsNum = parseInt(document.getElementById('reviewerStars').value);
+            const feedback = document.getElementById('reviewerText').value.trim();
+
+            if(!feedback) {
+                alert("Please enter a feedback log message first!");
+                return;
+            }
+
+            let starString = "";
+            for(let i=0; i<starsNum; i++) { starString += "⭐"; }
+
+            const container = document.getElementById('liveReviewContainer');
+            const newRow = document.createElement('tr');
+            newRow.className = "review-row";
+            newRow.innerHTML = `
+                <td><strong>${name}</strong></td>
+                <td><span class="stars">${starString}</span></td>
+                <td>"${feedback}"</td>
+            `;
+            container.insertBefore(newRow, container.firstChild);
+
+            document.getElementById('reviewerName').value = "";
+            document.getElementById('reviewerText').value = "";
+        }
+
+       function generateBirthdayLink() {
+    // 1. Get the values from the form
+    const name = encodeURIComponent(document.getElementById('makerName').value.trim());
+    const pass = encodeURIComponent(document.getElementById('makerPass').value.trim());
+    const wish = encodeURIComponent(document.getElementById('makerWish').value.trim());
+    
+    let selectedSong = document.getElementById('makerSongSelect').value;
+    if (selectedSong === "custom") {
+        selectedSong = document.getElementById('makerCustomSongUrl').value.trim();
+    }
+    const song = encodeURIComponent(selectedSong);
+
+    const i1 = encodeURIComponent(document.getElementById('makerImg1').value.trim());
+    const c1 = encodeURIComponent(document.getElementById('makerCap1').value.trim());
+    const i2 = encodeURIComponent(document.getElementById('makerImg2').value.trim());
+    const c2 = encodeURIComponent(document.getElementById('makerCap2').value.trim());
+
+    // 2. HARDCODE your live GitHub Pages URL here
+    const baseUrl = "https://anjali44singh.github.io/Birthday-Website/";
+    
+    // 3. Construct the full link with all parameters
+    let fullLink = `${baseUrl}?n=${name}&p=${pass}&m=${wish}&s=${song}&t=bluepink`;
+    
+    if(i1) fullLink += `&i1=${i1}`;
+    if(c1) fullLink += `&c1=${c1}`;
+    if(i2) fullLink += `&i2=${i2}`;
+    if(c2) fullLink += `&c2=${c2}`;
+
+    // 4. Display the result as a clickable link
+    const resultBox = document.getElementById('linkResultBox');
+    const targetSpan = document.getElementById('outputLinkLocation');
+    
+    targetSpan.innerHTML = `<a href="${fullLink}" target="_blank">${fullLink}</a>`;
+    resultBox.classList.remove('hidden');
+}
+
+        function toggleCustomSongInput() {
+            const selection = document.getElementById('makerSongSelect').value;
+            const customGroup = document.getElementById('customSongInputGroup');
+            customGroup.classList.toggle('hidden', selection !== "custom");
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Spin up the fast one-second pop culture icon cycle interval loop instantly
+            startStarCyclingEngine();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const nameParam = urlParams.get('n');
+            const passParam = urlParams.get('p');
+            const wishParam = urlParams.get('m');
+            const songParam = urlParams.get('s');
+            const img1Param = urlParams.get('i1');
+            const c1Param = urlParams.get('c1');
+            const img2Param = urlParams.get('i2');
+            const c2Param = urlParams.get('c2');
+
+            const music = document.getElementById('bdayMusic');
+
+            if (nameParam) {
+                document.getElementById('wishHeaderTitle').innerText = `Happy Birthday, ${decodeURIComponent(nameParam)}! ✨`;
+                document.getElementById('galleryNameHeader').innerText = `${decodeURIComponent(nameParam)}'s Best Memories 📸`;
+            }
+            if (passParam) targetPasscode = decodeURIComponent(passParam).trim();
+            if (wishParam) {
+                document.getElementById('wishMessageText').innerText = decodeURIComponent(wishParam);
+                document.getElementById('finalSummaryText').innerText = decodeURIComponent(wishParam) + " 🎉💝";
+            }
+            if (songParam) {
+                music.src = decodeURIComponent(songParam);
+                document.getElementById('customAudioUrl').value = "Custom Track Active 🎵";
+            } else {
+                music.src = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+                document.getElementById('customAudioUrl').value = "Instrumental Melodic Piano (Default)";
+            }
+
+            if (img1Param) document.getElementById('imgView1').src = decodeURIComponent(img1Param);
+            if (c1Param) document.getElementById('capView1').innerText = decodeURIComponent(c1Param);
+            if (img2Param) document.getElementById('imgView2').src = decodeURIComponent(img2Param);
+            if (c2Param) document.getElementById('capView2').innerText = decodeURIComponent(c2Param);
+        });
+    </script>
+</body>
+</html>
